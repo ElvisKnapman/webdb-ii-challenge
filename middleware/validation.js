@@ -7,6 +7,10 @@ const validateInfoNotEmpty = (req, res, next) => {
     res.status(400).json({
       message: "VIN number, make, model and mileage must have a value"
     });
+  } else if (body.vinNumber.length > 17) {
+    res.status(400).json({
+      message: "VIN Number is too long. Must be 17 characters maximum."
+    });
   } else if (typeof body.vinNumber !== "string") {
     res.status(400).json({ message: "VIN number must be a string" });
   } else if (typeof body.mileage !== "number") {
