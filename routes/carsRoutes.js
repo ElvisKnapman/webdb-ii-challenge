@@ -38,6 +38,30 @@ router.post("/", validateInfoNotEmpty, async (req, res) => {
   }
 });
 
+router.put(
+  "/:id",
+  validateVehicleID,
+  validateInfoNotEmpty,
+  async (req, res) => {
+    const { id } = req.params;
+    const updatedCar = req.body;
+
+    try {
+      const updatedID = await db("cars")
+        .where({ id })
+        // returns number of records updated
+        .update(updatedCar);
+      if (updatedID) {
+        res
+          .status(200)
+          .json({ message: `Car with id ${id} was updated successfully` });
+      }
+    } catch (err) {
+      res.status(500).json({ message: "Server could not update car" });
+    }
+  }
+);
+
 router.delete("/:id", validateVehicleID, async (req, res) => {
   const { id } = req.params;
 
