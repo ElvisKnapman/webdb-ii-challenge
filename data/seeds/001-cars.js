@@ -1,7 +1,7 @@
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex("cars")
-    .del()
+    .truncate() // resets the id primary key
     .then(function() {
       // Inserts seed entries
       return knex("cars").insert([
