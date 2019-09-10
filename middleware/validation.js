@@ -16,6 +16,28 @@ const validateInfoNotEmpty = (req, res, next) => {
   }
 };
 
+const validateVehicleID = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const car = await db("cars")
+      .where({ id })
+      .first();
+    console.log("CAR IN VALIDATE ID:", car);
+    if (car) {
+      req.car = car;
+      next();
+    } else {
+      res.status(404).json({ message: "Car ID does not exist" });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Server could not validate vehicle by ID" });
+  }
+};
+
 module.exports = {
-  validateInfoNotEmpty
+  validateInfoNotEmpty,
+  validateVehicleID
 };
